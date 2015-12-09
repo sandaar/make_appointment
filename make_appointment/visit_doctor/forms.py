@@ -1,5 +1,4 @@
 from django.forms import ModelForm
-
 from bootstrap3_datetime.widgets import DateTimePicker
 
 from .models import Appointment
