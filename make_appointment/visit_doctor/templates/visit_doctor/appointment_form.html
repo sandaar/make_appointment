@@ -1,0 +1,27 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css"
+              href="{% static 'visit_doctor/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" type="text/css"
+              href="{% static 'visit_doctor/css/bootstrap-theme.min.css' %}">
+        <script src="{% static 'visit_doctor/js/jquery-1.11.3.min.js' %}">
+        </script>
+        <script src="{% static 'visit_doctor/js/bootstrap.min.js' %}">
+        </script>
+        {{ form.media }}
+    </head>
+    <body>
+        <form action="/visit_doctor/" method="post" class="navbar-form">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </div>
+        </form>
+    </body>
+</html>
