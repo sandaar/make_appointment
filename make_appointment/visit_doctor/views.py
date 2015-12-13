@@ -10,4 +10,4 @@ from .forms import AppointmentForm
 class AppointmentCreateView(CreateView):
     model = Appointment
     form_class = AppointmentForm
-    success_url = '/visit_doctor/'
+    success_url = '/'

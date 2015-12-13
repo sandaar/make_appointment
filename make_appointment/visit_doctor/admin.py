@@ -19,7 +19,6 @@ class AppointmentAdmin(admin.ModelAdmin):
                     'last_name', 'first_name', 'patronic_name')
     list_filter = ['start_time']
     search_fields = ['last_name', 'first_name', 'patronic_name']
-    readonly_fields = ('end_time',)
 
 
 class AppointmentInline(admin.TabularInline):
