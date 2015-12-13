@@ -5,12 +5,13 @@ from .models import Doctor, Appointment
 
 class AppointmentAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None,                        {'fields': ['doctor']}),
-        ("Client's Information",      {'fields': [
-                                                  'last_name',
-                                                  'first_name',
-                                                  'patronic_name'],
-                                       'classes': ['collapse']}),
+        (None, {'fields': ['doctor']}),
+        ("Client's Information", {
+            'fields': [
+                'last_name',
+                'first_name',
+                'patronic_name'],
+            'classes': ['collapse']}),
         ('Time and Date Information', {'fields': ['start_time',
                                                   'end_time'],
                                        'classes': ['collapse']}),

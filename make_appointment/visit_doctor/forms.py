@@ -12,5 +12,4 @@ class AppointmentForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(AppointmentForm, self).__init__(*args, **kwargs)
         self.fields['start_time'].widget = DateTimePicker(options={
-                                                "format": "YYYY-MM-DD HH:mm",
-                                                "pickSeconds": False})
+            "format": "YYYY-MM-DD HH:mm", "pickSeconds": False})

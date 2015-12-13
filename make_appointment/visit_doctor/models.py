@@ -15,7 +15,7 @@ class Doctor(models.Model):
 
     def __str__(self):
         return "{} {} {}".format(
-                    self.last_name, self.first_name, self.patronic_name)
+            self.last_name, self.first_name, self.patronic_name)
 
 
 class Appointment(models.Model):
@@ -60,11 +60,11 @@ class Appointment(models.Model):
 
     def __str__(self):
         return "{} - {}: Appointment with Dr. {} {} {} ({} {} {})".format(
-                                self.start_time.strftime("%Y-%m-%d %H:%M:%S"),
-                                self.end_time.strftime("%H:%M:%S"),
-                                self.doctor.last_name,
-                                self.doctor.first_name,
-                                self.doctor.patronic_name,
-                                self.last_name,
-                                self.first_name,
-                                self.patronic_name)
+            self.start_time.strftime("%Y-%m-%d %H:%M:%S"),
+            self.end_time.strftime("%H:%M:%S"),
+            self.doctor.last_name,
+            self.doctor.first_name,
+            self.doctor.patronic_name,
+            self.last_name,
+            self.first_name,
+            self.patronic_name)
