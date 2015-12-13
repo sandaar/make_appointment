@@ -45,6 +45,7 @@ class Appointment(models.Model):
         super(Appointment, self).validate_unique(*args, **kwargs)
 
         qs = self.__class__._default_manager.filter(
+            doctor=self.doctor,
             start_time__lt=self.end_time,
             end_time__gt=self.start_time
         )
