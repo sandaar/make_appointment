@@ -21,7 +21,7 @@ class Doctor(models.Model):
 class Appointment(models.Model):
     start_time = models.DateTimeField('Start date and time')
     end_time = models.DateTimeField('End date and time')
-    doctor = models.ForeignKey(Doctor, null=True)
+    doctor = models.ForeignKey(Doctor)
     first_name = models.CharField("Client's first name", max_length=30)
     last_name = models.CharField("Client's last name", max_length=30)
     patronic_name = models.CharField("Client's patronic name", max_length=30)
