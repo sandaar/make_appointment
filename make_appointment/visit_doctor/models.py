@@ -21,7 +21,7 @@ class Doctor(models.Model):
 class Appointment(models.Model):
     start_time = models.DateTimeField('Start date and time')
     end_time = models.DateTimeField('End date and time')
-    doctor = models.ForeignKey(Doctor)
+    doctor = models.ForeignKey(Doctor, null=True)
     first_name = models.CharField("Client's first name", max_length=30)
     last_name = models.CharField("Client's last name", max_length=30)
     patronic_name = models.CharField("Client's patronic name", max_length=30)
@@ -32,14 +32,15 @@ class Appointment(models.Model):
         super(Appointment, self).save(*args, **kwargs)
 
     def clean(self):
-        self.end_time = self.start_time + datetime.timedelta(hours=1)
-        if self.start_time <= timezone.now():
-            raise ValidationError({'start_time': 'Past time'})
-        if self.start_time.isoweekday() not in range(1, 6):
-            raise ValidationError({'start_time': 'Not a business day'})
-        if self.start_time.hour not in range(9, 18) or\
-           self.end_time.hour not in range(9, 18):
-                raise ValidationError({'start_time': 'Not working hours'})
+        if self.start_time:
+            self.end_time = self.start_time + datetime.timedelta(hours=1)
+            if self.start_time <= timezone.now():
+                raise ValidationError({'start_time': 'Past time'})
+            if self.start_time.isoweekday() not in range(1, 6):
+                raise ValidationError({'start_time': 'Not a business day'})
+            if self.start_time.hour not in range(9, 18) or\
+               self.end_time.hour not in range(9, 18):
+                    raise ValidationError({'start_time': 'Not working hours'})
 
     def validate_unique(self, *args, **kwargs):
         super(Appointment, self).validate_unique(*args, **kwargs)

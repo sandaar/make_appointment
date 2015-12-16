@@ -5,6 +5,7 @@ from django.test import TestCase
 from django.core.exceptions import ValidationError
 
 from .models import Appointment, Doctor
+from .forms import AppointmentForm
 
 
 class AppointmentMethodTests(TestCase):
@@ -121,3 +122,55 @@ class AppointmentMethodTests(TestCase):
                                        patronic_name="Patronic")
         except:
             self.fail("Encountered an unexpected exception.")
+
+
+class AppointmentFormTests(TestCase):
+    def setUp(self):
+        self.doctor = Doctor.objects.create(
+            first_name="test",
+            last_name="test",
+            patronic_name="test")
+
+    def test_init(self):
+        AppointmentForm()
+
+    def test_valid_data(self):
+        now = timezone.now()
+        # pick next Tuesday, 11am
+        time = now + datetime.timedelta(days=-now.weekday()+1, weeks=1,
+                                        hours=-now.hour+11)
+        form = AppointmentForm({
+            'start_time': time,
+            'first_name': 'First',
+            'last_name': 'Last',
+            'patronic_name': 'Patronic',
+            'doctor': self.doctor.id
+            })
+        self.assertTrue(form.is_valid())
+        appointment = form.save()
+        self.assertEqual(appointment.start_time, time)
+        self.assertEqual(appointment.first_name, 'First')
+        self.assertEqual(appointment.last_name, 'Last')
+        self.assertEqual(appointment.patronic_name, 'Patronic')
+        self.assertEqual(appointment.doctor, self.doctor)
+
+    def test_blank_data(self):
+        form = AppointmentForm({})
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors, {
+            'start_time': ['This field is required.'],
+            'first_name': ['This field is required.'],
+            'last_name': ['This field is required.'],
+            'patronic_name': ['This field is required.'],
+            'doctor': ['This field is required.']
+            })
+
+
+class AppointmentCreateViewTests(TestCase):
+    def test_homepage(self):
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_uses_right_template(self):
+        response = self.client.get('/')
+        self.assertTemplateUsed(response, 'visit_doctor/appointment_form.html')
